@@ -1,32 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    [SerializeField] bool blocked;
-
+    [SerializeField] private TextMeshPro lable;
+    public SpriteRenderer spriteRenderer;
     public Vector2Int cords;
 
     GridManager gridManager;
 
-   
-    void Start()
-    {
-        SetCords();
 
-        if(blocked)
-        {
-            gridManager.BlockNode(cords);
-        }
+    public void SetColor(Color color)
+    {
+        spriteRenderer.color = color;
     }
 
-    private void SetCords()
+    public void Block()
     {
-        gridManager = FindObjectOfType<GridManager>();
-        int x = (int)transform.position.x;
-        int y = (int)transform.position.y;
+        gridManager.BlockNode(cords);
+        spriteRenderer.color = Color.black;
+    }
 
-        cords = new Vector2Int(x / gridManager.UnityGridSize, y / gridManager.UnityGridSize);
+    public void SetCords(Vector2Int cords)
+    {
+        this.cords = cords;
+        gridManager = FindFirstObjectByType<GridManager>();
+        transform.position = gridManager.GetPositionFromCoordinates(cords);
+        var node = gridManager.GetNode(cords);
+        if (!node.walkable)
+        {
+            spriteRenderer.color = Color.black;
+        }
+        transform.name = cords.ToString();
+        lable.text = cords.ToString();
     }
 }

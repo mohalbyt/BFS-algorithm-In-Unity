@@ -1,38 +1,22 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-[ExecuteAlways]
-public class Labeller : MonoBehaviour
+public class TileSpawner : MonoBehaviour
 {
-    // private TextMeshPro label;
-    // private Vector2Int cords;
-    // GridManager gridManager;
-    //
-    //
-    // private void Awake()
-    // {
-    //     gridManager = FindObjectOfType<GridManager>();
-    //     label = GetComponent<TextMeshPro>();
-    //     label = GetComponentInChildren<TextMeshPro>();
-    //     
-    //     DisplayCords();
-    // }
-    //
-    // private void Update()
-    // {
-    //     DisplayCords();
-    //     transform.name = cords.ToString();
-    // }
-    //
-    // void DisplayCords()
-    // {
-    //     if (!gridManager)
-    //     {
-    //         Debug.LogError("GridManager not found");
-    //     }
-    //     cords.x = Mathf.FloorToInt(transform.position.x / gridManager.UnityGridSize);
-    //     cords.y = Mathf.FloorToInt(transform.position.y / gridManager.UnityGridSize);
-    //
-    //     label.text = $"{cords.x}, {cords.y}";
-    // }
+    //ساختن تایل های بازی بر اساس گرید منیجر
+
+    [SerializeField] private Transform tileParent;
+    [SerializeField] private Tile tilePrefab;
+    public Dictionary<Vector2Int, Tile> tiles = new Dictionary<Vector2Int, Tile>();
+    private void Start()
+    {
+        var gridManager = FindFirstObjectByType<GridManager>();
+        foreach (var item in gridManager.Grid)
+        {
+            var tile = Instantiate(tilePrefab, tileParent);
+            tile.SetCords(item.Key);
+            tiles[item.Key] = tile;
+        }
+    }
 }

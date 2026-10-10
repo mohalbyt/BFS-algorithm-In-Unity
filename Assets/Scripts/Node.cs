@@ -4,14 +4,8 @@ public class Node
 {
     public Vector2Int cords;
     
+    public bool walkable;
     
-   public bool walkable;
-   
-   public bool explored;
-    
-    public bool path;
-    
-    public Node connectTo;
     
     public Node(Vector2Int cords, bool walkable)
     {

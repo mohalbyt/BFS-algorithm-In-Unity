@@ -14,11 +14,14 @@ public class Pathfinding : MonoBehaviour
         ShowPath(path);
     }
 
-
+    private GridManager gridManager;
+    
+    private TileSpawner tileSpawner;
     public List<Node> GetPath(Vector2Int from, Vector2Int end,List<Node> currentPath)
     {
         Debug.Log(from);
-        GridManager gridManager = FindObjectOfType<GridManager>();
+        if(gridManager == null)
+         gridManager = FindFirstObjectByType<GridManager>();
         Node fromNode = gridManager.GetNode(from);
         currentPath.Add(fromNode);
         if (from == end)
@@ -70,7 +73,8 @@ public class Pathfinding : MonoBehaviour
 
     public void ShowPath(List<Node> path)
     {
-        TileSpawner tileSpawner =  FindObjectOfType<TileSpawner>();
+        if(tileSpawner == null)
+         tileSpawner =  FindObjectOfType<TileSpawner>();
         foreach (var item in path)
         {
             tileSpawner.tiles[item.cords].SetColor(Color.green);
